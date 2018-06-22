@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <title>Bookmark App</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css'>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+  <link rel='stylesheet' href='styles/index.css'>
+</head>
+
+<body>
+    <header>
+        <div="logo">
+          <i class="far fa-bookmark" id = "logo" alt = "bookmark icon logo"></i>
+      </div>
+  </header>
+  
+  <div class="addBookmark"> 
+  <section class="addBookmark"> 
+    
+      <form action="/bookmark website/" class="js-shopping-list-entry">
+    
+    <h1>Save Your Faves</h1>
+    <h2>Website Bookmarker</h2>
+    
+    <fieldset class = "addBookmark" name="websiteInfo">
+  
+
+    <label for = "title" class = "formLabel">Website Title</label>
+    <input type = "text" class = 'itemInput' "js-shopping-list-entry" name="name" id="js-itemInput-title" placeholder= "Add Website Name" title="Name of website bookmark" required/>
+
+    <label for = 'url' class = "formLabel">Website URL</label>
+    <input type = "url"  class = "itemInput" " js-shopping-list-entry"
+    placeholder = "Add Website URL" name="URL" id="js-itemInput-url" title="Website's URL" required />
+    <label for = 'description' class = "formLabel">Website Description</label>
+        <input type = "text"  class = "markInfo"  "js-shopping-list-entry"
+        placeholder = "Add Website Description" name = "Description" id = "js-bookmark-list-description" title = "website's Description" readonly/>
+
+    <label for = 'bookmarkRating' class = "formLabel" >Rate</label>
+    <input type = "number"  class = "newBmRating"  "js-shopping-list-entry" placeholder = "Rate 1-5" name = "bookmarkRating" id = "js-bookmark-list-rating" title = "Website's Rating" min="1" max="5"/>
+    <button type="submit" class="subBtn"  "js-shopping-list-entry" id= "js-itemInput-submit">Submit</button>
+     
+  </fieldset>
+     </form>
+  </section>
+    </div> 
+
+    <main>
+    <div class="bookmarkList">
+  <section class = "bookmarkList">
+    <div > 
+      
+         <div class="bookmarkList"> 
+        <form action="/bookmark website/" method ="post">
+        
+          <h1>Bookmarks</h1>
+          <label for = "bookmark-filter" class = "formLabel">Bookmark Rating Filter</label>
+         <select class= "jsRatingFilter" name ="Bookmark-Rating-Filter">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+            <div class= "js-bookmark-list">
+            <ul class= " js-bookmark-container"><li>Holder</li></ul>
+            </div>
+
+
+          </div> 
+        
+        
+      </section>
+        </div> 
+    
+
+    
+  </section>
+  </div>
+ </main>
+</div>     
+  
+  <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
+    crossorigin='anonymous'></script>
+    <script type='text/javascript' src='/scripts/store.js'></script>
+    <script type='text/javascript' src='/scripts/bookmarkList.js'></script>
+    <script type='text/javascript' src='/scripts/api.js'></script>
+    <script type='text/javascript' src='/scripts/index.js'></script>
+
+</body>
+</html>
