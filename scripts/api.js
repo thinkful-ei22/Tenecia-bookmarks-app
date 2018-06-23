@@ -11,7 +11,7 @@ const api = (function(){
   const saveNewItems = function (bookmark, callback, error) {
     $.ajax({
       url: BASE_URL,
-      method: 'post',
+      method: 'POST',
       contentType: 'application/JSON',
       data: JSON.stringify(bookmark),
       success: callback,
@@ -22,7 +22,7 @@ const api = (function(){
   const deleteItems = function(id, callback) {
     $.ajax({
       url: `${BASE_URL}/${id}`,
-      method: 'delete',
+      method: 'DELETE',
       contentType: 'application/JSON',
       success: callback,
     });
@@ -31,7 +31,7 @@ const api = (function(){
   const updateItems = function(id, callback, error) {
     $.ajax({
       url: `${BASE_URL}/${id}`,
-      method: 'patch',
+      method: 'PATCH',
       contentType: 'application/JSON',
       success: callback,
       error: error,

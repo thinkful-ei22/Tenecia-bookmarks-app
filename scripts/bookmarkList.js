@@ -30,7 +30,7 @@ const library = (function(){
           <label for = 'url' class = "formLabel url">Website URL</label>
           <input type = "url"  class = "url itemInput" 
           placeholder = "Add Website URL" name="URL" id="js-bookmark-list-url" title="Website's URL" />
-          <label for = "description" class = "formLabel description"> Website Description </label>
+          <label for = "description" class = " description "> Website Description </label>
           <input type = "text"  class = "description markInfo" placeholder = "Add Website Description" name = "description" id = "js-bookmark-list-description" title = "description" />
           <input type = "number"  class = "rating bmRating" placeholder = "Rate 1-5" name = "bookmarkRating" id = "js-bookmark-list-rating" title = "Website's Rating" />
           <button type="submit" class="infoBtn">Visit</button> <button type="reset" class="infoBtn">Delete</button>
