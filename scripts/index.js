@@ -1,7 +1,6 @@
 'use strict';
-/* global API, store, library  */
 
-const handleAddBtn = function() {
+const handleAddButton = function() {
   $('.addItem').click( () => {
     store.newBookmark = !store.newBookmark;
     $('.addBookmark').attr('style', 'display: block');
@@ -9,31 +8,20 @@ const handleAddBtn = function() {
   });
 };
   
-// const handleCloseBtn = function () {
-//   $('.editForm').on('click', '.closebtn', (e) => {
-//     e.preventDefault();
-//     $('.addBookmark').attr('style', 'display: none');
-//     store.newBookmark = !store.newBookmark;
-//   });
-// };
-  
-// const handleClickOutsideaddBookmark = function () {
-//   $('.addBookmark').click( () =>{
-//     $('.addBookmark').attr('style', 'display: none');
-//     store.newBookmark = !store.newBookmark;
-//   });
-//   $('.addBookmark').on('click', '.formcontainer',  (e) => {
-//     e.stopPropagation();
-//   });
-// };
-  
+const handleCloseButton = function () {
+  $('.editForm').on('click', '.closebtn', (e) => {
+    e.preventDefault();
+    $('.addBookmark').attr('style', 'display: none');
+    store.newBookmark = !store.newBookmark;
+  });
+};
+
 $(document).ready(function() {
-  handleAddBtn();
-//   handleCloseBtn();
-//   handleClickOutsideForm();
-//   library.bindEventHandlers();
-//   API.getBookmarks((bookmarks) => {
-//     store.items = bookmarks;
-//     library.renderPage();
+  handleAddButton();
+  handleCloseButton();
+  library.bindHandlers();
+  API.getBookmarks((bookmarks) => {
+    store.items = bookmarks;
+    library.renderPage();
   });
 });

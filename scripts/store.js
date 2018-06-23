@@ -4,27 +4,27 @@ const store = (function() {
     this.items.push(bookmark);
   };
   
-//   const removeItem = function(id) {
-//     store.items = store.items.filter(item => item.id !== id);
-//   };
+  const removeItem = function(id) {
+    store.items = store.items.filter(item => item.id !== id);
+  };
   
-//   const updateFilterBy = function(rating) {
-//     this.filterBy = rating;
-//   };
+  const updateFiltering = function(rating) {
+    this.filtering = rating;
+  };
   
-//   const updateExpandedElement = function(id) {
-//     this.expandedElement = id;
-//   };
+  const updateExpanded = function(id) {
+    this.expandedBookmark = id;
+  };
   
-//   return {
-//     items: [],
-//     newItem: false,
-//     addItem,
-//     removeItem,
-//     filterBy: null,
-//     expandedElement: null,
-//     errorMsg: null,
-//     updateFilterBy,
-//     updateExpandedElement,
-//   };
-// }());
+  return {
+    items: [],
+    newItem: false,
+    addItem,
+    removeItem,
+    filtering: null,
+    expandedBookmark: null,
+    errorMessage: null,
+    updateFiltering,
+    updateExpanded,
+  };
+}());

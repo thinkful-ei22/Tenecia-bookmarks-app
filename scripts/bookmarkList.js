@@ -23,49 +23,41 @@ const library = (function(){
   
     if (store.editBookmark) {
       $('.Editform').html(`<div class="editFormContainer">
-          <span class="closebtn" id="closebtn">X</span>
           <form>
           <fieldset>
-            <button type="submit" class="infoBtn"><i class="far fa-edit"></i></button>
           <label for = "title" class = "formLabel">Website Title</label>
-          <input type = "text" class = 'itemInput' name="name" id="js-bookmark-list-title" placeholder= "Add Website Name" title="Name of website bookmark" readonly/>
-          <label for = 'url' class = "formLabel">Website URL</label>
-          <input type = "url"  class = "itemInput" 
-          placeholder = "Add Website URL" name="URL" id="js-bookmark-list-url" title="Website's URL" readonly />
-          <label for = 'description' class = "formLabel">Website Description</label>
-          <input type = "text"  class = "markInfo" 
-          placeholder = "Add Website Description" name = "Description" id = "js-bookmark-list-description" title = "website's Description" readonly/>
-          <label for = 'description' class = "bmformLabel" ></label>
-          <input type = "number"  class = "bmRating" placeholder = "Rate 1-5" name = "bookmarkRating" id = "js-bookmark-list-rating" title = "Website's Rating" />
-          <button type="submit" class="infoBtn">Visit</button> <button type="reset" class="infoBtn">Delete</button><button class="infoBtn"">Cancel</button>
+          <input type = "text" class = 'title itemInput' name="name" id="js-bookmark-list-title" placeholder= "Add Website Name" title="Name of website bookmark"/>
+          <label for = 'url' class = "formLabel url">Website URL</label>
+          <input type = "url"  class = "url itemInput" 
+          placeholder = "Add Website URL" name="URL" id="js-bookmark-list-url" title="Website's URL" />
+          <label for = "description" class = "formLabel description"> Website Description </label>
+          <input type = "text"  class = "description markInfo" placeholder = "Add Website Description" name = "description" id = "js-bookmark-list-description" title = "description" />
+          <input type = "number"  class = "rating bmRating" placeholder = "Rate 1-5" name = "bookmarkRating" id = "js-bookmark-list-rating" title = "Website's Rating" />
+          <button type="submit" class="infoBtn">Visit</button> <button type="reset" class="infoBtn">Delete</button>
            </fieldset>
         </form>
         </div>`);
     }
   
-    // if (store.filterBy) items = store.items.filter(item => item.rating >= store.filterBy);
+    if (store.filtering) items = store.items.filter(item => item.rating >= store.filtering);
   
-    // const htmlString = createHTML(items);
-    // $('.bookmark-container').html(htmlString);
-    // $('h2').html(`My Book Marks: ${store.items.length}`);
+    if (store.errorMessage) {
+      let message = store.errorMessage;
+      if (message.includes('title')) {
+        $('.title').toggleClass('invalid');
+        $('.title').after('<p class="errorMessage">Title Required</p>');
+      }
+      if (message.includes('url')) {
+        $('.url').toggleClass('invalid');
+        $('.url').after('<p class="errorMessage">URL required with HTTP(s)://</p>');
+      }
+    }
   
-    // if (store.errorMsg) {
-    //   let message = store.errorMsg;
-    //   if (message.includes('title')) {
-    //     $('.jsTitle').toggleClass('invalid');
-    //     $('.jsTitle').after('<p class="errorMessage">A title is Required</p>');
-    //   }
-    //   if (message.includes('url')) {
-    //     $('.jsUrl').toggleClass('invalid');
-    //     $('.jsUrl').after('<p class="errorMessage">A URL is required and must begin with HTTP(s)://</p>');
-    //   }
-    // }
-  
-    if (store.expandedElement) {
-      $(`[data-id=${store.expandedElement}]`).children('.expansion-container').html(`
+    if (store.expandedBookmark) {
+      $(`[data-id=${store.expandedBookmark}]`).children('.expansion-container').html(`
         <span>Description:</span>
-        <p>${store.items.find(item => item.id === store.expandedElement).desc}</p>
-        <a href = "${store.items.find(item => item.id === store.expandedElement).url}">Visit Site</a>
+        <p>${store.items.find(item => item.id === store.expandedBookmark).desc}</p>
+        <a href = "${store.items.find(item => item.id === store.expandedBookmark).url}">Visit Site</a>
         <button class="editButton">Edit</button>
         `);
     }
@@ -77,70 +69,70 @@ const library = (function(){
   };
   
   const handleError = function (response) {
-    store.errorMsg = response.responseJSON.message,
+    store.errorMessage = response.responseJSON.message,
     renderPage();
   };
   
-  const handleSubmitAddForm = function () {
+  const handleSubmit = function () {
     $('.addForm').on('submit', 'form', e => {
       e.preventDefault();
       const bookmark = {
-        title: $('.jsTitle').val(),
-        rating: $('.jsRating').val(),
-        url: $('.jsUrl').val(),
-        desc: $('.jsDescription').val(),
+        title: $('.title').val(),
+        rating: $('.rating').val(),
+        url: $('.url').val(),
+        desc: $('.Description').val(),
       };
       API.saveNewBookmarks(bookmark, (response) =>{
         $('form')[0].reset();
         $('.addForm').attr('style', 'display: none');
         store.editBookmark = !store.editBookmark;
-        store.errorMsg = null;
+        store.errorMessage = null;
         store.addItem(response);
         renderPage();
       }, handleError);
     });
   };
   
-  //   const handleDeletePress = function() {
-  //     $('.bookmark-container').on('click', '.delete', (e) => {
-  //       e.stopPropagation();
-  //       const id = getElementId(e.currentTarget);
-  //       API.deleteBookmarks(id, () => {
-  //         store.removeItem(id);
-  //         renderPage();
-  //       });
-  //     });
-  //   };
+  const handleDelete = function() {
+    $('.bookmark-container').on('click', '.delete', (e) => {
+      e.stopPropagation();
+      const id = getElementId(e.currentTarget);
+      API.deleteBookmarks(id, () => {
+        store.removeItem(id);
+        renderPage();
+      });
+    });
+  };
     
-  //   const handleFilterOptionSelect = function() {
-  //     $('.bookMarkFilter').change( e => {
-  //       store.updateFilterBy($(e.currentTarget).val());
-  //       renderPage();
-  //     });
-  //   };
+  const handleBookmarkFilter = function() {
+    $('.bookMarkFilter').change( e => {
+      store.updateFiltering($(e.currentTarget).val());
+      renderPage();
+    });
+  };
   
-  //   const handleElementSelectExpansion = function() {
-  //     $('.bookmark-container').on('click', '.bookmark', (e) => {
-  //       const id = getElementId(e.currentTarget);
-  //       if (id === store.expandedElement) {
-  //         store.expandedElement = null;
-  //         renderPage();
-  //       }else {
-  //         store.updateExpandedElement(id);
-  //         renderPage();
-  //       }
-  //     });
-  //   };
+  const handleBookmarktExpansion = function() {
+    $('.bookmark-container').on('click', '.bookmark', (e) => {
+      const id = getElementId(e.currentTarget);
+      if (id === store.expandedBookmark) {
+        store.expandedBookmark = null;
+        renderPage();
+      }else {
+        store.updateExpanded(id);
+        renderPage();
+      }
+    });
+  };
   
-  const bindEventHandlers = function() {
-    handleSubmitAddForm();
-    // handleDeletePress();
-    // handleFilterOptionSelect();
-    // handleElementSelectExpansion();
+  const bindHandlers = function() {
+    handleSubmit();
+    handleDelete();
+    handleBookmarkFilter();
+    handleBookmarktExpansion();
   };
   
   return {
     renderPage,
-    bindEventHandlers,
+    bindHandlers,
   };
 }());
