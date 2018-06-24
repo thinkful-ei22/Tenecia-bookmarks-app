@@ -7,13 +7,13 @@ const bookmarkList = (function(){
         <span class="title">${marker.title}</span>
         <p>Rating: ${marker.rating}</p>
         <div class="expandedItem"></div>
-        <button class="delete" arai-lablel="delete ${marker.title} button"><i class="fa fa-trash"></i>Trash</button>
+        <button class="delete"><i class="fa fa-trash"></i>Trash</button>
       </li>
       `;
   };
 
   const createList = function(bookmarks) {
-    const html = bookmarks.map(bookmark => createBookmark(bookmark));
+    const html = bookmarks.map(marker => createBookmark(marker));
     return html.join('');
 };
   
@@ -32,7 +32,10 @@ const bookmarkList = (function(){
           <label for = "description" class = " description "> Website Description </label>
           <input type = "text"  class = "description markInfo" placeholder = "Add Website Description" name = "description" id = "js-bookmark-list-description" title = "description" />
           <input type = "number"  class = "rating bmRating" placeholder = "Rate 1-5" name = "bookmarkRating" id = "js-bookmark-list-rating" title = "Website's Rating" />
-          <button type="submit" class="infoBtn">Visit</button> <button type="reset" class="infoBtn">Delete</button>
+          <button type="submit" class=" addForm subBtn"  "js-shopping-list-entry" id= "js-itemInput-submit">Submit</button>
+          <button class="submitForm" type="submit">Submit</button>
+        <button class="close subBtn">Exit</button>
+          <button type="reset" class="delete infoBtn">Delete</button>
            </fieldset>
         </form>
         </div>`);
@@ -41,7 +44,7 @@ const bookmarkList = (function(){
     if (store.filtering) items = store.items.filter(item => item.rating >= store.filtering);
 
     const htmlString = createList(items);
-    $('.bookmark-container').html(htmlString);
+    $('.bookmarkListing').html(htmlString);
 $('h2').html(`Saved Bookmarks: ${store.items.length}`);
   
     if (store.errorMessage) {
@@ -81,9 +84,10 @@ $('h2').html(`Saved Bookmarks: ${store.items.length}`);
       e.preventDefault();
       const marker = {
         title: $('.title').val(),
+        id: cuid(),
         rating: $('.rating').val(),
         url: $('.url').val(),
-        desc: $('.Description').val(),
+        desc: $('.description').val(),
       };
       API.saveNewBookmarks(marker, (response) =>{
         $('form')[0].reset();
@@ -97,7 +101,7 @@ $('h2').html(`Saved Bookmarks: ${store.items.length}`);
   };
   
   const handleDelete = function() {
-    $('.bookmark-container').on('click', '.delete', (e) => {
+    $('.bookmarkListing').on('click', '.delete', (e) => {
       e.stopRender();
       const id = getElementId(e.currentTarget);
       API.deleteBookmarks(id, () => {
@@ -115,7 +119,7 @@ $('h2').html(`Saved Bookmarks: ${store.items.length}`);
   };
   
   const handleBookmarktExpansion = function() {
-    $('.bookmark-container').on('click', '.bookmark', (e) => {
+    $('.bookmarkListing').on('click', '.bookmark', (e) => {
       const id = getElementId(e.currentTarget);
       if (id === store.expandedBookmark) {
         store.expandedBookmark = null;

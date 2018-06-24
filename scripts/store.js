@@ -1,7 +1,7 @@
 'use strict';
 const store = (function() {
-  const addItem = function(bookmark) {
-    this.items.push(bookmark);
+  const addItem = function(marker) {
+    this.items.push(marker);
   };
   
   const removeItem = function(id) {

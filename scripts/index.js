@@ -9,7 +9,7 @@ const handleAddButton = function() {
 };
   
 const handleCloseButton = function () {
-  $('.editForm').on('click', '.closebtn', (e) => {
+  $('.editForm').on('click', '.close', (e) => {
     e.preventDefault();
     $('.addBookmark').attr('style', 'display: none');
     store.newBookmark = !store.newBookmark;
@@ -19,9 +19,9 @@ const handleCloseButton = function () {
 $(document).ready(function() {
   handleAddButton();
   handleCloseButton();
-  library.bindHandlers();
+  bookmarkList.bindHandlers();
   API.getBookmarks((bookmarks) => {
     store.items = bookmarks;
-    library.renderPage();
+    bookmarkList.renderPage();
   });
 });
