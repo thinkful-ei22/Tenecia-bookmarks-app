@@ -1,22 +1,21 @@
 'use strict';
-/* global store, API  */
 
-const library = (function(){
-  const createElement = function(marker) {
+const bookmarkList = (function(){
+  const createBookmark = function(marker) {
     return `
       <li class="marker" data-id="${marker.id}">
         <span class="title">${marker.title}</span>
         <p>Rating: ${marker.rating}</p>
-        <div class="expansion-container"></div>
+        <div class="expandedItem"></div>
         <button class="delete" arai-lablel="delete ${marker.title} button"><i class="fa fa-trash"></i>Trash</button>
       </li>
       `;
   };
-  
-  const createHTML = function(markers) {
-    const html = markers.map(marker => createElement(marker));
+
+  const createList = function(bookmarks) {
+    const html = bookmarks.map(bookmark => createBookmark(bookmark));
     return html.join('');
-  };
+};
   
   const renderPage = function (){
     let items = store.items;
@@ -40,6 +39,10 @@ const library = (function(){
     }
   
     if (store.filtering) items = store.items.filter(item => item.rating >= store.filtering);
+
+    const htmlString = createList(items);
+    $('.bookmark-container').html(htmlString);
+$('h2').html(`Saved Bookmarks: ${store.items.length}`);
   
     if (store.errorMessage) {
       let message = store.errorMessage;
@@ -54,11 +57,11 @@ const library = (function(){
     }
   
     if (store.expandedBookmark) {
-      $(`[data-id=${store.expandedBookmark}]`).children('.expansion-container').html(`
+      $(`[data-id=${store.expandedBookmark}]`).children('.expandedItem').html(`
         <span>Description:</span>
         <p>${store.items.find(item => item.id === store.expandedBookmark).desc}</p>
         <a href = "${store.items.find(item => item.id === store.expandedBookmark).url}">Visit Site</a>
-        <button class="editButton">Edit</button>
+        <button class="editButton infoBtn">Edit</button>
         `);
     }
   };
@@ -76,15 +79,15 @@ const library = (function(){
   const handleSubmit = function () {
     $('.addForm').on('submit', 'form', e => {
       e.preventDefault();
-      const bookmark = {
+      const marker = {
         title: $('.title').val(),
         rating: $('.rating').val(),
         url: $('.url').val(),
         desc: $('.Description').val(),
       };
-      API.saveNewBookmarks(bookmark, (response) =>{
+      API.saveNewBookmarks(marker, (response) =>{
         $('form')[0].reset();
-        $('.addForm').attr('style', 'display: none');
+        $('.addForm').attr('style');
         store.editBookmark = !store.editBookmark;
         store.errorMessage = null;
         store.addItem(response);
@@ -95,7 +98,7 @@ const library = (function(){
   
   const handleDelete = function() {
     $('.bookmark-container').on('click', '.delete', (e) => {
-      e.stopPropagation();
+      e.stopRender();
       const id = getElementId(e.currentTarget);
       API.deleteBookmarks(id, () => {
         store.removeItem(id);
